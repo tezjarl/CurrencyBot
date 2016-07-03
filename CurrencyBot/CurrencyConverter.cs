@@ -9,18 +9,20 @@ namespace CurrencyBot
 {
     public class CurrencyConverter
     {
+        private const string ApiUrl= "http://api.fixer.io/latest?base=";
+
         public async Task<decimal> GetConvertedResult(decimal value, Currency currencyInput, Currency currencyOutput)
         {
-           var response = await LoadExchangeRate(currencyInput);
-           var conversationUnit = GetConversationUnit(response);
+           HttpResponseMessage response = await LoadExchangeRate(currencyInput);
+           ConversationUnit conversationUnit = GetConversationUnit(response);
             return ConvertMoney(value, currencyOutput, conversationUnit);
         }
 
         private async Task<HttpResponseMessage> LoadExchangeRate(Currency currencyInput)
         {
-            var currencyInputString = ConvertCurrencyName(currencyInput);
+            string currencyInputString = ConvertCurrencyName(currencyInput);
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://api.fixer.io/latest?base="+currencyInputString);
+            client.BaseAddress = new Uri(ApiUrl+currencyInputString);
             HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
             return response;
         }
@@ -53,8 +55,8 @@ namespace CurrencyBot
         private decimal ConvertMoney(decimal value, Currency currencyOutput, ConversationUnit conversation)
         {
             if (value < 0) return 0;
-            var currencyOutputString = ConvertCurrencyName(currencyOutput);
-            var exchangeRate = conversation.Rates[currencyOutputString];
+            string currencyOutputString = ConvertCurrencyName(currencyOutput);
+            decimal exchangeRate = conversation.Rates[currencyOutputString];
             if (exchangeRate <= 0)
             {
                 return -1;

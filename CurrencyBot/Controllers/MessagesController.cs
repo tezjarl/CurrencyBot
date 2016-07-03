@@ -60,7 +60,7 @@ namespace CurrencyBot
 
         private Message HelpMessageReply(Message message)
         {
-            var builder=new StringBuilder();
+            StringBuilder builder=new StringBuilder();
 
             builder.AppendLine("The request should looks like the following");
             builder.AppendLine("100/r");
@@ -81,25 +81,25 @@ namespace CurrencyBot
                 reply.Type = "Ping";
                 return reply;
             }
-            else if (message.Type == "DeleteUserData")
+            if (message.Type == "DeleteUserData")
             {
                 // Implement user deletion here
                 // If we handle user deletion, return a real message
             }
-            else if (message.Type == "BotAddedToConversation")
+            if (message.Type == "BotAddedToConversation")
             {
                 return message.CreateReplyMessage("Hello I am currency bot!");
             }
-            else if (message.Type == "BotRemovedFromConversation")
+            if (message.Type == "BotRemovedFromConversation")
             {
             }
-            else if (message.Type == "UserAddedToConversation")
+            if (message.Type == "UserAddedToConversation")
             {
             }
-            else if (message.Type == "UserRemovedFromConversation")
+            if (message.Type == "UserRemovedFromConversation")
             {
             }
-            else if (message.Type == "EndOfConversation")
+            if (message.Type == "EndOfConversation")
             {
             }
 
